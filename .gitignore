@@ -1,0 +1,116 @@
+# ===================================================================
+# General .gitignore for VHDL / FPGA Projects (Vivado, Quartus, etc.)
+# ===================================================================
+
+# --- Umum / Sistem Operasi ---
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# --- VHDL Simulation Files ---
+# (ModelSim, GHDL, etc.)
+*.vcd
+*.vst
+*.wlf
+*.wave
+*.fsdb
+transcript
+vsim.wlf
+work/
+*.o
+*.cf
+
+# ===================================================================
+# Xilinx Vivado
+# ===================================================================
+.Xil/
+*.cache/
+*.hw/
+*.impl/
+*.ip_user_files/
+*.ipdefs/
+*.ipcache/
+*.runs/
+*.srcs/sources_1/bd/
+*.sdk/
+*.sw/
+*.gen/
+*_bd.tcl
+*_ooc.xdc
+*_synth.dcp
+*_synth.rpt
+*_synth.pb
+*.str
+*.lso
+*.log
+*.jou
+*.rpt
+*.pb
+*.html
+*.xml
+*.data/
+*.sim/
+webtalk*.jou
+webtalk*.log
+webtalk.tcl
+vitis_design.hwh
+*_wrapper.vhd
+*_wrapper.v
+*.bif
+*.bit
+*.bin
+*.ltx
+*.prm
+*.sysdef
+*.bmm
+*.mmi
+*.xpe
+*.xsa
+*.xsdb
+*.tcl.backup
+*.html.zip
+*.zip
+*.zip.backup
+
+# Jangan abaikan file project utama dan constraints
+!*.xpr
+!*.xdc
+!*.bd
+
+# ===================================================================
+# Intel Quartus
+# ===================================================================
+*.qws
+*.db/
+*.hdb/
+*.ipch/
+*.qoutput/
+*.rpt/
+*.qpf
+*.qsf.bak
+*.qarlog
+*.qdesign_backup
+*.qtemp
+*.qmegawiz
+*.sopcinfo
+*.somenv
+c5_pin_model_dump.txt
+greybox_tmp/
+incremental_db/
+qsys_script.tcl
+*_assignment_defaults.qdf
+*.sld
+*.jdi
+db/
+output_files/
+simulation/
+*.vht
+timing/
+
+# Jangan abaikan file project utama dan constraints
+!*.qpf
+!*.qsf
+!*.sdc
