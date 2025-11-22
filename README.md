@@ -1,23 +1,11 @@
-# Proyek Tugas Besar Sistem Digital (EL2002)
+#  Implementasi Algoritma Ringan ASCON-CXOF pada FPGA untuk Perangkat dengan Memori dan Fungsionalitas Terbatas
+## Proyek Tugas Besar Sistem Digital (EL2002)
 
 [![Lisensi MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-Ini adalah repositori tugas besar kelompok yang berisi desain VHDL dan beberapa utilitas perangkat lunak untuk menguji algoritma Ascon (CXOF/hash) yang digunakan di bagian perangkat lunak.
+Ini adalah repositori tugas besar kelompok yang berisi desain VHDL dan beberapa utilitas perangkat lunak untuk menguji algoritma Ascon (CXOF) yang digunakan di bagian perangkat lunak.
 
 Anggota Kelompok 2
-- 13224006 - Kyrie Eleison Jacob Pakpahan
-- 13224005 - Nadine Gabe Ulina Sianturi
-- 13224004 - Afdhal Razaq
-- 13223012 - Samuel Kristian
-
-# Proyek Tugas Besar Sistem Digital (EL2002)
-
-[![Lisensi MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-
-Ini adalah repositori tugas besar kelompok yang berisi desain VHDL dan beberapa utilitas perangkat lunak untuk menguji algoritma Ascon (CXOF/hash) yang digunakan di bagian perangkat lunak.
-
-## Anggota Kelompok 2
-
 - 13224006 - Kyrie Eleison Jacob Pakpahan
 - 13224005 - Nadine Gabe Ulina Sianturi
 - 13224004 - Afdhal Razaq
@@ -40,6 +28,13 @@ Ini adalah repositori tugas besar kelompok yang berisi desain VHDL dan beberapa 
 git checkout -b feat/nama-fitur
 git add ...
 git commit -m "feat: pesan singkat"
+    feat: (Feature)
+    fix: (Bug Fix)
+    refactor: (Refactoring)
+    docs: (Documentation)
+    test: (Testing) 
+    chore: (Chores/Maintenance)
+    perf: (Performance)
 git push -u origin feat/nama-fitur
 ```
 
