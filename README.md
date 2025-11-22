@@ -1,30 +1,57 @@
-# Proyek ""
-## Tugas Besar Sistem Digital - EL2002
+#  Implementasi Algoritma Ringan ASCON-CXOF pada FPGA untuk Perangkat dengan Memori dan Fungsionalitas Terbatas
+## Proyek Tugas Besar Sistem Digital (EL2002)
 
 [![Lisensi MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-Proyek ini adalah implementasi ...
+Ini adalah repositori tugas besar kelompok yang berisi desain VHDL dan beberapa utilitas perangkat lunak untuk menguji algoritma Ascon (CXOF) yang digunakan di bagian perangkat lunak.
 
-###  Anggota Kelompok 2
-* 13224006 - Kyrie Eleison Jacob Pakpahan
-* 13224005 - Nadine Gabe Ulina Sianturi
-* 13224004 - Afdhal Razaq
-* 13223012 - Samuel Kristian
+Anggota Kelompok 2
+- 13224006 - Kyrie Eleison Jacob Pakpahan
+- 13224005 - Nadine Gabe Ulina Sianturi
+- 13224004 - Afdhal Razaq
+- 13223012 - Samuel Kristian
 
-#### 2. Kompilasi & Simulasi
-1.  **Clone repositori** ini:
-    ```bash
-    git clone [URL-repo]
-    ```
-2.  **Buka Proyek:**
-    * Buka [Nama Software, misal: Intel].
-    * Pilih `Open Project`.
-    * Arahkan ke file proyek `[nama-file-proyek].xpr` (untuk Vivado) atau `[nama-file-proyek].qpf` (untuk Quartus) yang ada di dalam folder yang sudah di-clone.
-3.  **Jalankan Simulasi:**
-    * Di panel *Flow Navigator*, temukan dan klik `Run Simulation`.
-    * Pilih `Run Behavioral Simulation`.
-    * File *testbench* utama yang digunakan adalah `[nama_file_testbench_utama]_tb.vhd`.
-4.  **Sintesis & Implementasi (Opsional - Jika deploy ke board):**
-    * Di panel *Flow Navigator*, klik `Run Synthesis`.
-    * Setelah selesai, klik `Run Implementation`.
-    * Terakhir, klik `Generate Bitstream` untuk membuat file `.bit` yang siap di-upload ke FPGA.
+## Catatan singkat
+
+- Top-level Makefile mungkin menjalankan tool VHDL (GHDL / Vivado / Quartus). Jika Anda hanya ingin membangun/menjalankan utilitas C (di folder `software/`), gunakan `make -C software` atau target Makefile di `software/`.
+
+## Struktur penting
+
+- `hardware/` — kode VHDL (top-level, testbenches, constraints)
+- `software/` — implementasi C Ascon + test runners (lihat `software/README.md`)
+
+## Kontribusi
+
+- Gunakan branch terpisah untuk fitur/perbaikan. Contoh:
+
+```bash
+git checkout -b feat/nama-fitur
+git add ...
+git commit -m "feat: pesan singkat"
+    feat: (Feature)
+    fix: (Bug Fix)
+    refactor: (Refactoring)
+    docs: (Documentation)
+    test: (Testing) 
+    chore: (Chores/Maintenance)
+    perf: (Performance)
+git push -u origin feat/nama-fitur
+```
+
+- Buat pull request untuk review sebelum merge ke `main`.
+
+## Ringkasan cepat: menjalankan utilitas Ascon (CXOF/hash)
+
+1. Build runner CXOF:
+
+```bash
+make -C software test-cxof-bits
+```
+
+2. Jalankan (message, label, out_bits, optional pa_rounds):
+
+```bash
+./software/test_cxof_bits "hello" "kelompok2" 255 12
+```
+
+Untuk dokumentasi build/run lebih lengkap lihat `software/README.md`.
