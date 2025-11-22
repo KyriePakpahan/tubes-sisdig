@@ -113,4 +113,5 @@ timing/
 # Jangan abaikan file project utama dan constraints
 !*.qpf
 !*.qsf
-!*.sdc
+!*.sdctest_*
+cxof_out.txt
