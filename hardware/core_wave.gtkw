@@ -1,0 +1,38 @@
+[*]
+[*] GTKWave Core Module Save File
+[*] View key signals from ascon_cxof128_core
+[*]
+[timestart] 0
+[size] 1920 1080
+[pos] -1 -1
+*-18.000000 135 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_core_wave.
+[sst_width] 269
+[signals_width] 200
+[sst_expanded] 1
+[sst_vpaned_height] 300
+@28
+tb_core_wave.dut.clk
+tb_core_wave.dut.rst
+tb_core_wave.dut.init_state
+@28
+tb_core_wave.dut.start_perm
+tb_core_wave.dut.round_active
+@29
+tb_core_wave.dut.round_ctr[3:0]
+@28
+tb_core_wave.dut.perm_done
+tb_core_wave.dut.core_busy
+@28
+tb_core_wave.dut.absorb_en
+@22
+tb_core_wave.dut.block_in[63:0]
+tb_core_wave.dut.block_out[63:0]
+@22
+tb_core_wave.dut.s[0][63:0]
+tb_core_wave.dut.s[1][63:0]
+tb_core_wave.dut.s[2][63:0]
+tb_core_wave.dut.s[3][63:0]
+tb_core_wave.dut.s[4][63:0]
+[pattern_trace] 1
+[pattern_trace] 0
