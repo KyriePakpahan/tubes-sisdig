@@ -1,0 +1,19 @@
+v 4
+file . "tb_top_wave.vhd" "b66fb01d2cb5735fd182df01cd89f69d21988c73" "20251209030955.950":
+  entity tb_top_wave at 9( 519) + 0 on 25;
+  architecture sim of tb_top_wave at 17( 649) + 0 on 26;
+file . "tb_buffer_wave.vhd" "e8a2372df1e87aa6223dd6c0af36f93e8f61e25b" "20251209030955.865":
+  entity tb_buffer_wave at 9( 506) + 0 on 17;
+  architecture sim of tb_buffer_wave at 16( 622) + 0 on 18;
+file . "tb_core_wave.vhd" "3b60ef5e2b42a2c34cd79c43b9b40bad476f65dd" "20251209030955.802":
+  entity tb_core_wave at 9( 520) + 0 on 13;
+  architecture sim of tb_core_wave at 16( 632) + 0 on 14;
+file . "ascon_cxof128_core.vhd" "c8e64619276c37b615a355afb450a4d08bfaa87e" "20251209030955.933":
+  entity ascon_cxof128_core at 15( 732) + 0 on 19;
+  architecture behavioral of ascon_cxof128_core at 39( 1593) + 0 on 20;
+file . "ascon_cxof128_buffer.vhd" "25860d3d832fcb93fd5afc40d8951ca750cdab2f" "20251209030955.938":
+  entity cxof_buffer at 18( 893) + 0 on 21;
+  architecture behavioral of cxof_buffer at 54( 2645) + 0 on 22;
+file . "ascon_cxof128_top.vhd" "5f82575cf1db071066217ef6f062dcc8dcacfad2" "20251209030955.943":
+  entity ascon_cxof128_top at 27( 1475) + 0 on 23;
+  architecture behavioral of ascon_cxof128_top at 59( 2828) + 0 on 24;
