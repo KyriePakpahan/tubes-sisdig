@@ -1,0 +1,49 @@
+[*]
+[*] GTKWave Buffer Module Save File
+[*] View key signals from cxof_buffer state machine
+[*]
+[timestart] 0
+[size] 1920 1080
+[pos] -1 -1
+*-18.000000 135 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_buffer_wave.
+[sst_width] 269
+[signals_width] 200
+[sst_expanded] 1
+[sst_vpaned_height] 300
+@28
+tb_buffer_wave.dut.clk
+tb_buffer_wave.dut.rst
+@200
+----- Phase Control -----
+@28
+tb_buffer_wave.dut.start_z
+tb_buffer_wave.dut.start_m
+@200
+----- State Machine -----
+@28
+tb_buffer_wave.dut.current_state
+@200
+----- Data Interface -----
+@28
+tb_buffer_wave.dut.data_valid
+tb_buffer_wave.dut.buffer_ready
+tb_buffer_wave.dut.last_word
+@22
+tb_buffer_wave.dut.data_in[63:0]
+tb_buffer_wave.dut.valid_bytes[2:0]
+@200
+----- Core Interface -----
+@28
+tb_buffer_wave.dut.block_valid
+tb_buffer_wave.dut.cmd_perm
+tb_buffer_wave.dut.cmd_squeeze
+tb_buffer_wave.dut.core_busy
+@22
+tb_buffer_wave.dut.block_out[63:0]
+@200
+----- Squeeze Counter -----
+@22
+tb_buffer_wave.dut.squeeze_count[31:0]
+[pattern_trace] 1
+[pattern_trace] 0
