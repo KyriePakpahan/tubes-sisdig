@@ -1,0 +1,62 @@
+[*]
+[*] GTKWave Top Module Save File
+[*] View complete system signals from ascon_cxof128_top
+[*]
+[timestart] 0
+[size] 1920 1080
+[pos] -1 -1
+*-18.000000 135 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_top_wave.
+[sst_width] 269
+[signals_width] 250
+[sst_expanded] 1
+[sst_vpaned_height] 300
+@28
+tb_top_wave.clk
+tb_top_wave.rst
+@200
+----- TOP MODULE STATE -----
+@28
+tb_top_wave.dut.main_state
+@200
+----- External Inputs -----
+@28
+tb_top_wave.start_z
+tb_top_wave.start_m
+tb_top_wave.data_valid
+tb_top_wave.last_word
+@22
+tb_top_wave.z_bit_len[63:0]
+tb_top_wave.data_in[63:0]
+tb_top_wave.valid_bytes[2:0]
+@200
+----- External Outputs -----
+@28
+tb_top_wave.buffer_ready
+tb_top_wave.hash_valid
+@22
+tb_top_wave.hash_out[63:0]
+@200
+----- BUFFER Internal State -----
+@28
+tb_top_wave.dut.u_buffer.current_state
+tb_top_wave.dut.u_buffer.buffer_ready
+tb_top_wave.dut.u_buffer.block_valid
+tb_top_wave.dut.u_buffer.cmd_perm
+tb_top_wave.dut.u_buffer.cmd_squeeze
+@22
+tb_top_wave.dut.u_buffer.squeeze_count[31:0]
+@200
+----- CORE Internal State -----
+@28
+tb_top_wave.dut.u_core.round_active
+tb_top_wave.dut.u_core.perm_done
+tb_top_wave.dut.u_core.core_busy
+@29
+tb_top_wave.dut.u_core.round_ctr[3:0]
+@22
+tb_top_wave.dut.u_core.s[0][63:0]
+tb_top_wave.dut.u_core.s[1][63:0]
+tb_top_wave.dut.u_core.s[2][63:0]
+[pattern_trace] 1
+[pattern_trace] 0
