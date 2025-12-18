@@ -9,7 +9,6 @@ Anggota Kelompok 2
 - 13224006 - Kyrie Eleison Jacob Pakpahan
 - 13224005 - Nadine Gabe Ulina Sianturi
 - 13224004 - Afdhal Razaq
-- 13223012 - Samuel Kristian
 
 ## Catatan singkat
 
