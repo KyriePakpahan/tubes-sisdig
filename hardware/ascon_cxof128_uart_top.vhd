@@ -88,9 +88,9 @@ begin
         core_busy => w_core_busy
     );
 
-    -- [LOGIKA START CORE DIPERBARUI]
-    -- Start jika: Buffer kirim data valid ATAU Buffer minta squeeze ATAU Init state
-    comb_start_perm <= '1' when (w_block_valid = '1') or (w_cmd_squeeze = '1') or (main_state = INIT_IV_PERM) else '0';
+    -- Start jika: Buffer kirim data valid ATAU Init state
+    -- REMOVED w_cmd_squeeze to prevent skipping first block
+    comb_start_perm <= '1' when (w_block_valid = '1') or (main_state = INIT_IV_PERM) else '0';
 
     U_CORE: entity work.ascon_cxof128_core
     port map (

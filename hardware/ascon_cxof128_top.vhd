@@ -93,7 +93,15 @@ architecture Behavioral of ascon_cxof128_top is
     
     -- One-cycle pulse to start the IV permutation
     -- This is critical: we only want ONE P12, not continuous
+    -- One-cycle pulse to start the IV permutation
+    -- This is critical: we only want ONE P12, not continuous
     signal iv_start_perm : std_logic := '0';
+    
+    -- Auto-Reset Tracking
+    signal transaction_init_done : std_logic := '0';
+    signal buf_start_z : std_logic;
+    signal internal_reset_pulse : std_logic := '0';
+    signal combined_rst : std_logic;
 
     -- ========================================================================
     -- BYTE SWAP FUNCTION
@@ -118,6 +126,9 @@ architecture Behavioral of ascon_cxof128_top is
 
 begin
 
+    -- Combined Reset: External Reset OR Internal Auto-Reset Pulse
+    combined_rst <= rst or internal_reset_pulse;
+
     -- ========================================================================
     -- COMPONENT INSTANTIATION
     -- ========================================================================
@@ -126,10 +137,10 @@ begin
     U_BUFFER: entity work.cxof_buffer
     port map (
         clk         => clk,
-        rst         => rst,
+        rst         => combined_rst, -- Force Reset on new transaction
         z_bit_len   => z_bit_len,
         out_len_bits=> out_len_bits,
-        start_z     => start_z,
+        start_z     => buf_start_z,
         start_m     => start_m,
         data_in     => data_in,
         valid_bytes => valid_bytes,
@@ -144,13 +155,17 @@ begin
         core_busy   => w_core_busy
     );
 
+    -- Only start the buffer AFTER we have finished the re-initialization
+    buf_start_z <= start_z when (transaction_init_done = '1' and main_state = IDLE_RUN) else '0';
+
     -- Core: The Ascon permutation engine
     U_CORE: entity work.ascon_cxof128_core
     port map (
         clk        => clk,
         rst        => rst,
-        -- Permutation starts from: buffer command OR squeeze OR IV init
-        start_perm => (w_cmd_perm or w_cmd_squeeze or iv_start_perm),
+        -- Permutation starts from: buffer command OR IV init
+        -- REMOVED w_cmd_squeeze to prevent skipping the first output block
+        start_perm => (w_cmd_perm or iv_start_perm),
         absorb_en  => w_block_valid,
         init_state => ctrl_init_state,
         block_in   => w_block_data,
@@ -188,9 +203,11 @@ begin
                 main_state <= RESET_STATE; 
                 ctrl_init_state <= '0';
                 iv_start_perm <= '0';
+                internal_reset_pulse <= '0';
             else
                 -- Clear the pulse signal by default
                 iv_start_perm <= '0';
+                internal_reset_pulse <= '0';
                 
                 case main_state is
                 
@@ -213,9 +230,17 @@ begin
                         end if;
                         
                     when IDLE_RUN => 
-                        -- Step 4: Normal operation - buffer takes control
-                        -- Nothing to do here, just wait for hash completion
-                        null;
+                        -- Step 4: Normal operation
+                        -- Check for new transaction start to trigger re-initialization
+                        if start_z = '0' then
+                            transaction_init_done <= '0';
+                        elsif start_z = '1' and transaction_init_done = '0' then
+                            -- New start detected! TRIGGER HARD RESET!
+                            transaction_init_done <= '1';
+                            internal_reset_pulse <= '1'; -- Activates combined_rst logic
+                            main_state <= RESET_STATE;
+                            -- No need to set ctrl_init_state here, RESET_STATE does it
+                        end if;
                         
                 end case;
             end if;

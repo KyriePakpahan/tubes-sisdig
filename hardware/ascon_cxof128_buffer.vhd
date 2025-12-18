@@ -171,21 +171,24 @@ begin
                     -- add padding (0x01) and run P12.
                     
                     when STREAM_Z =>
-                        -- Signal that we're ready to receive data
-                        buffer_ready <= '1';
+                        -- Signal that we're ready to receive data ONLY if core is idle
+                        if core_busy = '0' then
+                            buffer_ready <= '1';
+                        else
+                            buffer_ready <= '0';
+                        end if;
                         
                         if data_valid = '1' and core_busy = '0' then
                             if last_word = '1' then
                                 -- This is the final word - need to add padding
                                 
                                 if valid_bytes = 0 then
-                                    -- EMPTY INPUT CASE:
-                                    -- No actual data bytes, just absorb zeros,
-                                    -- then send padding as a separate step.
+                                    -- FULL 8-BYTE LAST WORD:
+                                    -- Absorb all 8 bytes with P12, then add padding separately.
                                     block_out <= data_in;
                                     block_valid <= '1';
-                                    cmd_perm <= '0';  -- Don't start P12 yet
-                                    -- Padding will be 0x01 at byte position 0
+                                    cmd_perm <= '1';  -- Start P12 for this full block
+                                    -- After P12, add padding byte (0x01 at position 0)
                                     pad_buffer <= x"0000000000000001";
                                     current_state <= ABSORB_Z_PAD;
                                     
@@ -243,15 +246,20 @@ begin
                     -- Same logic as Z phase: stream data, add padding at end.
                     
                     when STREAM_M =>
-                        buffer_ready <= '1';
+                        if core_busy = '0' then
+                            buffer_ready <= '1';
+                        else
+                            buffer_ready <= '0';
+                        end if;
                         
                         if data_valid = '1' and core_busy = '0' then
                             if last_word = '1' then
                                 if valid_bytes = 0 then
-                                    -- Empty message case
+                                    -- FULL 8-BYTE LAST WORD:
+                                    -- Absorb with P12, then add padding separately.
                                     block_out <= data_in;
                                     block_valid <= '1';
-                                    cmd_perm <= '0';
+                                    cmd_perm <= '1';
                                     pad_buffer <= x"0000000000000001";
                                     current_state <= ABSORB_M_PAD;
                                 else
