@@ -1,0 +1,3 @@
+FROM llama3
+PARAMETER num_gpu 20
+

@@ -40,6 +40,104 @@ import time
 import re
 from pathlib import Path
 
+# Try to import face extraction (optional dependency)
+try:
+    from extract_face import extract_face_binary
+    FACE_EXTRACTION_AVAILABLE = True
+except ImportError:
+    FACE_EXTRACTION_AVAILABLE = False
+
+
+def capture_face_from_camera():
+    """Open camera, detect face, and return embedding when user presses SPACE."""
+    import cv2
+    import numpy as np
+    from numpy.linalg import norm
+    
+    # Load face detector
+    detector = cv2.CascadeClassifier(
+        cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+    )
+    
+    # Load ArcFace model
+    try:
+        net = cv2.dnn.readNetFromONNX("arcface.onnx")
+    except:
+        # Try from software directory
+        net = cv2.dnn.readNetFromONNX("software/arcface.onnx")
+    
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        raise RuntimeError("Cannot open camera")
+    
+    print("\n" + "="*60)
+    print("CAMERA MODE - Live Face Detection")
+    print("="*60)
+    print("  Press SPACE to capture face and send to FPGA")
+    print("  Press Q to quit")
+    print("="*60 + "\n")
+    
+    face_hex = None
+    
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            print("Failed to grab frame")
+            break
+        
+        # Detect faces
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = detector.detectMultiScale(gray, 1.1, 5, minSize=(100, 100))
+        
+        # Draw rectangles around faces
+        for (x, y, w, h) in faces:
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            cv2.putText(frame, "Face Detected", (x, y-10),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        
+        # Show status
+        status = "Face: YES" if len(faces) > 0 else "Face: NO"
+        cv2.putText(frame, status, (10, 30), 
+                   cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0) if len(faces) > 0 else (0, 0, 255), 2)
+        cv2.putText(frame, "SPACE=Capture  Q=Quit", (10, frame.shape[0]-10),
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
+        
+        cv2.imshow("Face Detection - FPGA Hash", frame)
+        
+        key = cv2.waitKey(1) & 0xFF
+        
+        if key == ord('q'):
+            break
+        elif key == ord(' ') and len(faces) > 0:
+            # Capture face and extract embedding
+            x, y, w, h = faces[0]  # Use first detected face
+            face = frame[y:y+h, x:x+w]
+            
+            # Preprocess for ArcFace
+            face_pp = cv2.resize(face, (112, 112))
+            face_pp = cv2.cvtColor(face_pp, cv2.COLOR_BGR2RGB)
+            face_pp = face_pp.astype(np.float32) / 255.0
+            face_pp = (face_pp - 0.5) / 0.5
+            
+            # Extract embedding
+            blob = cv2.dnn.blobFromImage(face_pp)
+            net.setInput(blob)
+            embedding = net.forward()[0]
+            
+            # Binarize and convert to hex
+            binary_vector = (embedding >= 0).astype(np.uint8)
+            binary_bytes = np.packbits(binary_vector)
+            face_hex = binary_bytes.tobytes().hex()
+            
+            print(f"\n[CAPTURED] Face embedding: {len(face_hex)} hex chars")
+            print(f"First 32 chars: {face_hex[:32].upper()}...")
+            break
+    
+    cap.release()
+    cv2.destroyAllWindows()
+    
+    return face_hex
+
 
 def to_bytes(s: str, is_hex: bool) -> bytes:
     """Convert string to bytes (either as UTF-8 text or hex)."""
@@ -174,6 +272,8 @@ def main():
     parser.add_argument('--label', help='Label (Z) as text')
     parser.add_argument('--msg-hex', help='Message as hex')
     parser.add_argument('--label-hex', help='Label (Z) as hex')
+    parser.add_argument('--face-image', help='Face image to extract embedding as label (Z)')
+    parser.add_argument('--camera', action='store_true', help='Use camera for live face detection')
     parser.add_argument('--outbytes', type=int, default=32, help='Output length in bytes (default: 32)')
     
     # Vector test mode  
@@ -227,6 +327,52 @@ def main():
             'label_hex': '',
             'md': '',
         }]
+    
+    # Face image mode - extract embedding and use as label
+    if args.face_image:
+        if not FACE_EXTRACTION_AVAILABLE:
+            print("Error: Face extraction not available. Make sure extract_face.py and arcface.onnx are present.")
+            sys.exit(1)
+        
+        print(f"\n{'='*60}")
+        print("FACE MODE: Extracting face embedding...")
+        print(f"{'='*60}")
+        
+        try:
+            face_hex = extract_face_binary(args.face_image)
+            print(f"Face embedding: {len(face_hex)} hex chars ({len(face_hex)//2} bytes)")
+            print(f"First 32 chars: {face_hex[:32].upper()}...")
+        except Exception as e:
+            print(f"Error extracting face: {e}")
+            sys.exit(1)
+        
+        # Use face embedding as label, override any other label
+        msg_hex = args.msg_hex if args.msg_hex else (args.msg.encode().hex() if args.msg else '')
+        vectors = [{
+            'idx': 0,
+            'msg_hex': msg_hex,
+            'label_hex': face_hex,
+            'md': '',
+        }]
+    
+    # Camera mode - live face detection
+    if args.camera:
+        try:
+            face_hex = capture_face_from_camera()
+            if face_hex is None:
+                print("No face captured. Exiting.")
+                sys.exit(0)
+            
+            msg_hex = args.msg_hex if args.msg_hex else (args.msg.encode().hex() if args.msg else '')
+            vectors = [{
+                'idx': 0,
+                'msg_hex': msg_hex,
+                'label_hex': face_hex,
+                'md': '',
+            }]
+        except Exception as e:
+            print(f"Camera error: {e}")
+            sys.exit(1)
     
     # Dry run mode
     if args.dry_run:

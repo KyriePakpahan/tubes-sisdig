@@ -1,19 +1,55 @@
 v 4
-file . "tb_top_wave.vhd" "b66fb01d2cb5735fd182df01cd89f69d21988c73" "20251209030955.950":
-  entity tb_top_wave at 9( 519) + 0 on 25;
-  architecture sim of tb_top_wave at 17( 649) + 0 on 26;
-file . "tb_buffer_wave.vhd" "e8a2372df1e87aa6223dd6c0af36f93e8f61e25b" "20251209030955.865":
-  entity tb_buffer_wave at 9( 506) + 0 on 17;
-  architecture sim of tb_buffer_wave at 16( 622) + 0 on 18;
-file . "tb_core_wave.vhd" "3b60ef5e2b42a2c34cd79c43b9b40bad476f65dd" "20251209030955.802":
+file . "tb_serial_top.vhd" "840bfb9e1ab696e0b55e9120d6ee9f6b0b12d280" "20251210132338.051":
+  entity tb_serial_top at 5( 214) + 0 on 203;
+  architecture behavioral of tb_serial_top at 12( 328) + 0 on 204;
+file . "tb_serial_v2.vhd" "f47196425141dd62c10800a0b66a0979f788b7d3" "20251210123919.015":
+  entity tb_serial_v2 at 5( 215) + 0 on 115;
+  architecture behavioral of tb_serial_v2 at 12( 327) + 0 on 116;
+file . "tb_serial_debug.vhd" "1a03efdf3ffe119be131ebaf8d1a693ccc24a089" "20251210120620.623":
+  entity tb_serial_debug at 5( 228) + 0 on 85;
+  architecture behavioral of tb_serial_debug at 12( 346) + 0 on 86;
+file . "tb_serial_protocol.vhd" "c53b84cbecb2cf9c487d4436adc627de3361b4fe" "20251210115258.215":
+  entity tb_serial_protocol at 14( 600) + 0 on 59;
+  architecture behavioral of tb_serial_protocol at 21( 724) + 0 on 60;
+file . "ascon_fpga_top.vhd" "949064233fa02c767b7a90ef6a6461e7873fcf7e" "20251210111246.302":
+  entity ascon_fpga_top at 23( 1117) + 0 on 37;
+  architecture behavioral of ascon_fpga_top at 60( 2724) + 0 on 38;
+file . "uart_tx.vhd" "4d6dc271f99c4890e61160632db6cd3fc58677e9" "20251210124347.437":
+  entity uart_tx at 1( 0) + 0 on 119;
+  architecture behavioral of uart_tx at 19( 739) + 0 on 120;
+file . "uart_rx.vhd" "44baa3736b0a2538e99976e560c61b9d2e4dcf93" "20251210124347.436":
+  entity uart_rx at 1( 0) + 0 on 117;
+  architecture behavioral of uart_rx at 17( 426) + 0 on 118;
+file . "ascon_cxof128_top.vhd" "3e44625b9cfe450f63a25c093567c6ba2c5449c3" "20251218081335.052":
+  entity ascon_cxof128_top at 27( 1475) + 0 on 237;
+  architecture behavioral of ascon_cxof128_top at 59( 2828) + 0 on 238;
+file . "ascon_cxof128_buffer.vhd" "066e754db95a20ea0e354f2beb1f05306992a141" "20251218081335.051":
+  entity cxof_buffer at 18( 893) + 0 on 235;
+  architecture behavioral of cxof_buffer at 54( 2645) + 0 on 236;
+file . "ascon_cxof128_core.vhd" "c8e64619276c37b615a355afb450a4d08bfaa87e" "20251218081335.050":
+  entity ascon_cxof128_core at 15( 732) + 0 on 233;
+  architecture behavioral of ascon_cxof128_core at 39( 1593) + 0 on 234;
+file . "tb_core_wave.vhd" "3b60ef5e2b42a2c34cd79c43b9b40bad476f65dd" "20251209071434.660":
   entity tb_core_wave at 9( 520) + 0 on 13;
   architecture sim of tb_core_wave at 16( 632) + 0 on 14;
-file . "ascon_cxof128_core.vhd" "c8e64619276c37b615a355afb450a4d08bfaa87e" "20251209030955.933":
-  entity ascon_cxof128_core at 15( 732) + 0 on 19;
-  architecture behavioral of ascon_cxof128_core at 39( 1593) + 0 on 20;
-file . "ascon_cxof128_buffer.vhd" "25860d3d832fcb93fd5afc40d8951ca750cdab2f" "20251209030955.938":
-  entity cxof_buffer at 18( 893) + 0 on 21;
-  architecture behavioral of cxof_buffer at 54( 2645) + 0 on 22;
-file . "ascon_cxof128_top.vhd" "5f82575cf1db071066217ef6f062dcc8dcacfad2" "20251209030955.943":
-  entity ascon_cxof128_top at 27( 1475) + 0 on 23;
-  architecture behavioral of ascon_cxof128_top at 59( 2828) + 0 on 24;
+file . "tb_buffer_wave.vhd" "e8a2372df1e87aa6223dd6c0af36f93e8f61e25b" "20251209071434.728":
+  entity tb_buffer_wave at 9( 506) + 0 on 17;
+  architecture sim of tb_buffer_wave at 16( 622) + 0 on 18;
+file . "tb_top_wave.vhd" "6156d9dcb79c8ca12c4b4610a720b4b1280d9e4b" "20251218081335.053":
+  entity tb_top_wave at 7( 393) + 0 on 239;
+  architecture sim of tb_top_wave at 15( 523) + 0 on 240;
+file . "ascon_serial_top.vhd" "7acd6c4743d309124548c36ff569bf52dbff0e11" "20251210133209.495":
+  entity ascon_serial_top at 17( 688) + 0 on 211;
+  architecture behavioral of ascon_serial_top at 36( 1168) + 0 on 212;
+file . "tb_serial_fast.vhd" "55311dfab70d921a2579c443095b5389b771213e" "20251210120406.442":
+  entity tb_serial_fast at 8( 412) + 0 on 83;
+  architecture behavioral of tb_serial_fast at 15( 528) + 0 on 84;
+file . "ascon_serial_top_v2.vhd" "7f6720bc55c014d7c3b7a5ea4e1572707cb99867" "20251210123807.958":
+  entity ascon_serial_top_v2 at 17( 659) + 0 on 111;
+  architecture behavioral of ascon_serial_top_v2 at 36( 1145) + 0 on 112;
+file . "tb_serial_m1.vhd" "64637496ef492450488639394050ff6e6a23d898" "20251210132338.052":
+  entity tb_serial_m1 at 5( 216) + 0 on 205;
+  architecture behavioral of tb_serial_m1 at 12( 328) + 0 on 206;
+file . "tb_serial_z1_m1.vhd" "cf8eec5c722de1ae3aa8b005d7a74fb5a31a1900" "20251210133209.496":
+  entity tb_serial_z1_m1 at 5( 240) + 0 on 213;
+  architecture behavioral of tb_serial_z1_m1 at 12( 358) + 0 on 214;

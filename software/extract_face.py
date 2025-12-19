@@ -3,12 +3,16 @@ import cv2
 import numpy as np
 from numpy.linalg import norm
 
+# ===== Get script directory for model paths =====
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+
 # ===== Load ArcFace model =====
-net = cv2.dnn.readNetFromONNX("arcface.onnx")
+_model_path = os.path.join(_script_dir, "arcface.onnx")
+net = cv2.dnn.readNetFromONNX(_model_path)
 
 # ===== GLOBAL REFERENCE EMBEDDING =====
 ref_embedding = None  # akan diisi saat pemanggilan pertama
-ref_file = "ref_embedding.npy"
+ref_file = os.path.join(_script_dir, "ref_embedding.npy")
 
 # ===== Jika file referensi ada, baca dulu =====
 if os.path.exists(ref_file):

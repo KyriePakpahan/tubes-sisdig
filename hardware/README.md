@@ -142,10 +142,15 @@ This guide explains how to use the `fpga_serial_test.py` script to communicate w
 The script `fpga_serial_test.py` is located in the `software/` directory.
 
 Must attach port to WSL
-##
+#### Run it on Powershell or CMD
 ```bash
-    usbipd list
+usbipd list
 usbipd attach --wsl --busid <BUSID>
+```
+
+### Make a permission to access the port
+```bash
+sudo chmod 666 /dev/ttyUSB0
 ```
 
 #### 1. Basic Test (Text Input)
@@ -182,6 +187,15 @@ See what data *would* be sent without actually opening the serial port:
 ```bash
 python software/fpga_serial_test.py --dry-run --msg "test" --label "test"
 ```
+
+### 5. Face Recognition as Label Input
+
+```bash
+python software/fpga_serial_test.py --face-image "/mnt/c/Users/kyrie/OneDrive/Pictures/Camera Roll/WIN_20251218_19_09_25_Pro.jpg" --port /dev/ttyUSB0 --msg "anjaymabar"
+```
+*   `--face-image`: Path to the face image file.
+*   `--msg`: The message payload (M).
+
 
 ### Protocol Details
 
