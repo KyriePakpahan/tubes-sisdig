@@ -69,7 +69,13 @@ begin
 
     U_UART_RX : entity work.uart_rx
     generic map ( CLKS_PER_BIT => 868 ) 
-    port map (clk, rx_line, uart_data_byte, uart_byte_val);
+    port map (
+        clk        => clk,
+        rst        => rst,
+        rx_serial  => rx_line,
+        data_out   => uart_data_byte,
+        data_valid => uart_byte_val
+    );
 
     U_BUFFER: entity work.cxof_buffer
     port map (

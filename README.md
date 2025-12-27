@@ -10,6 +10,7 @@ Anggota Kelompok 2
 - 13224005 - Nadine Gabe Ulina Sianturi
 - 13224004 - Afdhal Razaq
 
+
 ## Catatan singkat
 
 - Top-level Makefile mungkin menjalankan tool VHDL (GHDL / Vivado / Quartus). Jika Anda hanya ingin membangun/menjalankan utilitas C (di folder `software/`), gunakan `make -C software` atau target Makefile di `software/`.

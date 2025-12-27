@@ -215,6 +215,7 @@ begin
     generic map ( CLKS_PER_BIT => CLKS_PER_BIT )
     port map (
         clk        => clk,
+        rst        => rst,
         rx_serial  => uart_rx_pin,
         data_out   => uart_rx_data,
         data_valid => uart_rx_valid
@@ -227,6 +228,7 @@ begin
     generic map ( CLKS_PER_BIT => CLKS_PER_BIT )
     port map (
         clk        => clk,
+        rst        => rst,
         tx_start   => uart_tx_start,
         data_in    => uart_tx_data,
         tx_serial  => uart_tx_pin,

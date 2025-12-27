@@ -8,6 +8,7 @@ entity uart_rx is
     );
     Port (
         clk       : in  std_logic;
+        rst       : in  std_logic;                     -- Active-high synchronous reset
         rx_serial : in  std_logic;
         data_out  : out std_logic_vector(7 downto 0);
         data_valid: out std_logic
@@ -34,20 +35,28 @@ begin
         end if;
     end process;
 
-    -- UART FSM
     process(clk)
     begin
         if rising_edge(clk) then
-            case current_state is
-                when IDLE =>
-                    data_valid <= '0';
-                    clk_count <= 0;
-                    bit_index <= 0;
-                    if r_rx_data = '0' then -- Start bit detected
-                        current_state <= RX_START_BIT;
-                    else
-                        current_state <= IDLE;
-                    end if;
+            if rst = '1' then
+                -- Synchronous reset
+                current_state <= IDLE;
+                clk_count <= 0;
+                bit_index <= 0;
+                rx_byte <= (others => '0');
+                data_valid <= '0';
+                data_out <= (others => '0');
+            else
+                case current_state is
+                    when IDLE =>
+                        data_valid <= '0';
+                        clk_count <= 0;
+                        bit_index <= 0;
+                        if r_rx_data = '0' then -- Start bit detected
+                            current_state <= RX_START_BIT;
+                        else
+                            current_state <= IDLE;
+                        end if;
                     
                 when RX_START_BIT =>
                     if clk_count = (CLKS_PER_BIT-1)/2 then
@@ -79,23 +88,26 @@ begin
                     end if;
                     
                 when RX_STOP_BIT =>
-                    if clk_count < CLKS_PER_BIT-1 then
+                    -- Only wait half the stop bit period for better clock drift tolerance
+                    -- This allows the receiver to be ready for the next Start Bit sooner
+                    if clk_count < (CLKS_PER_BIT-1)/2 then
                         clk_count <= clk_count + 1;
                         current_state <= RX_STOP_BIT;
                     else
                         data_valid <= '1'; -- Byte valid di sini
                         data_out   <= rx_byte;
                         clk_count <= 0;
-                        current_state <= CLEANUP;
+                        current_state <= IDLE;  -- Go directly to IDLE, skip CLEANUP
                     end if;
                     
                 when CLEANUP =>
                     current_state <= IDLE;
                     data_valid <= '0';
                     
-                when others =>
-                    current_state <= IDLE;
-            end case;
-        end if;
+                    when others =>
+                        current_state <= IDLE;
+                end case;
+            end if;  -- rst
+        end if;  -- rising_edge
     end process;
 end Behavioral;
