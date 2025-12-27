@@ -118,4 +118,7 @@ timing/
 cxof_out.txt
 =======
 *.log
+*.env
+
 >>>>>>> kyrie
+software/arcface.onnx
